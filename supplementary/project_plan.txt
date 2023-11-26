@@ -1,0 +1,43 @@
+# PROJECT PLAN: React Playlist
+** Kristopher Kewish 27/11/23 **
+
+## Brainstorm
+    - Project Requirements 
+        - Write app
+        - Use Git and GitHub
+        - Use Spotify API
+        - Write a README
+    - Features
+        - Users can search for song by title
+        - (OPTIONAL) add search features for other attributes (e.g genre)
+        - Display information about the song (title, artist and album)
+        - Add song to playlist
+        - Export playlist to personal spotify account
+    - To do:
+        - --Wireframe the web app-- 
+        - --Decide on styles--
+            - --Color--
+            - --Font--
+        - Create initial HTML structure and global CSS styles
+        - Research Spotify API to learn how to interact with it
+        - Write helper functions
+            - Search function that takes string input and returns list of songs
+            - Export function that takes an array of song objects and saves it to personal spotify playlist
+            - Function(s) that convert between useful format and Spotify API formats
+        - React components
+            - Search bar
+                - Text input
+                - Search button
+            - Search results
+                - Card for each results
+                    - Title of song, artist and album
+                    - "add to playlist" button
+            - Playlist box
+                - Card for each song added in
+                - Text input for playlist title
+                - Save playlist button
+        - Add components into App.js
+        - Configure additional component specific styling
+        - Test app and fix bugs
+        - Write README
+        - Commit to GitHub (also do this along the way)
