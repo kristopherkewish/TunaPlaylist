@@ -5,7 +5,7 @@ const SearchBar = (props) => {
   return (
     <div className={styles.searchContainer}>
       <input className={styles.searchBar} type="text" value={props.searchText} onChange={props.handleChange}/>
-      <button className={styles.searchBtn}>Search</button>
+      <button className={styles.searchBtn} onClick={props.handleClick}>Search</button>
     </div>
   );
 };

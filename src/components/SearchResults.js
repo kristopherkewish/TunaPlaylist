@@ -1,15 +1,10 @@
 import React from 'react';
-import SongCard from './SongCard';
 import styles from './SearchResults.module.css'
 
-const SearchResults = () => {
+const SearchResults = ({searchResults}) => {
   return (
     <div className={styles.searchResults}>
-      <SongCard />
-      <SongCard />
-      <SongCard />
-      <SongCard />
-      <SongCard />
+      {searchResults}
     </div>
   );
 };

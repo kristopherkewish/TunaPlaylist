@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './SongCard.module.css'
 
-const SongCard = () => {
+const SongCard = ({title, artist, album}) => {
   return (
     <div className={styles.songCard}>
-        <h1>SONG TITLE</h1>
-        <h2>Artist // Album</h2>
+        <h1>{title}</h1>
+        <h2>{artist} // {album}</h2>
     </div>
   );
 };
