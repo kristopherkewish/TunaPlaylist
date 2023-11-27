@@ -5,7 +5,7 @@ function App() {
   return (
     <div id="appContainer">
       <header>
-        TUNA
+        {"><(((º>"} TUNA {"<º)))><"}
       </header>
       <main>
         <TunaPlaylistContainer />

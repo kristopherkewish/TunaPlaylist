@@ -1,12 +1,13 @@
 import React from 'react';
 import SongCard from './SongCard';
+import styles from './Playlist.module.css'
 
 const Playlist = () => {
   return (
-    <div id="playlist">
-      <input id="playlistTitleInput" type="text" />
+    <div className={styles.playlist}>
+      <input className={styles.playlistTitleInput} type="text" value="Playlist Title"/>
       <SongCard />
-      <button id="exportPlaylistBtn">Export</button>
+      <button className={styles.exportPlaylistBtn}>Export</button>
     </div>
   );
 };

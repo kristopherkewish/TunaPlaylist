@@ -1,0 +1,9 @@
+.searchResults {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background-color: #344E41;
+    border-radius: 1.5rem;
+    margin-bottom: 2rem;
+    width: 25rem;
+}
