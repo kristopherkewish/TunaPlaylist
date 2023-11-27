@@ -1,8 +1,17 @@
 import './App.css';
+import TunaPlaylistContainer from './containers/TunaPlaylistContainer';
 
 function App() {
   return (
-    <h1>eHllo World, my name is Kris</h1>
+    <div id="appContainer">
+      <header>
+        TUNA
+      </header>
+      <main>
+        <TunaPlaylistContainer />
+      </main>
+    </div>
+    
   );
 }
 

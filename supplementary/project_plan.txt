@@ -41,3 +41,27 @@
         - Test app and fix bugs
         - Write README
         - Commit to GitHub (also do this along the way)
+
+## React app structure
+    - Containers
+        - Whole app container (encapsulates other containers in order for data to be passed around)
+        - Search
+            - Handle change in the search bar input
+                - Store value in a text variable
+            - Handle click listener on the button
+                - Fetch request to API
+                - Pass results to results container
+        - Results
+            - Take data passed from search container, map to card components
+            - Handle click on card components. Push card to array for the playlist container.
+        - Playlist
+    - Components
+        - Search
+            - Search bar
+            - Search button
+        - Results
+            - Song Card
+        - Playlist
+            - Title input
+            - Song Card
+            - Export Playlist Button
