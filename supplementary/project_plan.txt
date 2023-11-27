@@ -18,7 +18,7 @@
         - --Decide on styles--
             - --Color--
             - --Font--
-        - Create initial HTML structure and global CSS styles
+        - --Create initial HTML structure and global CSS styles--
         - Research Spotify API to learn how to interact with it
         - Write helper functions
             - Search function that takes string input and returns list of songs
@@ -65,3 +65,59 @@
             - Title input
             - Song Card
             - Export Playlist Button
+
+## Example JSON object returned after search query for a track (use to structure code)
+
+{
+  "tracks": {
+    "href": "https://api.spotify.com/v1/search?query=DYSBF%21+artist%3Agrouptherapy.&type=track&offset=0&limit=5",
+    "items": [
+      {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/70KxgbZNsd9xOttXW67mh3"
+              },
+              "href": "https://api.spotify.com/v1/artists/70KxgbZNsd9xOttXW67mh3",
+              "id": "70KxgbZNsd9xOttXW67mh3",
+              "name": "grouptherapy.",
+              "type": "artist",
+              "uri": "spotify:artist:70KxgbZNsd9xOttXW67mh3"
+            }
+          ],
+          "available_markets": [
+            // List of available markets
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/0xJEL0q2jaHqIOamFxE7yq"
+          },
+          "href": "https://api.spotify.com/v1/albums/0xJEL0q2jaHqIOamFxE7yq",
+          "id": "0xJEL0q2jaHqIOamFxE7yq",
+          "images": [
+            // List of images
+          ],
+          "name": "i was mature for my age, but i was still a child",
+          "release_date": "2023-06-27",
+          "release_date_precision": "day",
+          "total_tracks": 16,
+          "type": "album",
+          "uri": "spotify:album:0xJEL0q2jaHqIOamFxE7yq"
+        },
+        "artists": [
+          // List of artists
+        ],
+        "available_markets": [
+          // List of available markets
+        ],
+        // Other track details
+      }
+    ],
+    "limit": 5,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 1
+  }
+}
