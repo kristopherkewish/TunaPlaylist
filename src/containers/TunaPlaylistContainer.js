@@ -1,10 +1,10 @@
 import React, { useState,useEffect } from 'react';
 import {handleLoginClick, getAccessTokenFromUrl} from '../modules/getAuthToken';
+import convertDataFormat from '../modules/convertDataFormat';
 import Playlist from '../components/Playlist';
 import SearchBar from '../components/SearchBar';
 import SearchResults from '../components/SearchResults';
 import styles from './TunaPlaylistContainer.module.css';
-import tracks from '../mockData';
 
 const TunaPlaylistContainer = () => {
   const [searchText, setSearchText] = useState('');
@@ -44,8 +44,8 @@ const TunaPlaylistContainer = () => {
   // Function to extract access token from URL fragment and set expiry time
   useEffect(() => {
     const {token, expiryTime} = getAccessTokenFromUrl();
-    setExpiryTime(token);
-    setAccessToken(expiryTime);
+    setExpiryTime(expiryTime);
+    setAccessToken(token);
   }, []);
 
 
@@ -63,7 +63,7 @@ const TunaPlaylistContainer = () => {
 
   const handleResultsCardClick = (id) => {
     // get track from mock data based on the id stored in the card prop
-    const newTrack = tracks[id];
+    const newTrack = searchResults.find(track => track.id === id);
 
     // add track to the trackList state
     setTracklist(prevTrackList => [newTrack, ...prevTrackList]);
@@ -77,13 +77,34 @@ const TunaPlaylistContainer = () => {
     setTracklist(newTracklist);
   }
 
-  const handleSearchClick = () => {
-    const filteredTracks = tracks.filter(track => {
-      return track.title.toLowerCase().includes(searchText.toLowerCase()) || track.artist.toLowerCase().includes(searchText.toLowerCase()) || track.album.toLowerCase().includes(searchText.toLowerCase())
-    });
+  const handleSearchClick = async () => {
+    // encode the query string using encodeURIComponent()
+    const encodedQuery = encodeURIComponent(searchText);
 
-    setSearchResults(filteredTracks);
-  }
+    // send a get request to the spotify API w/ fetch, assign the response value to a new variable with the await syntax
+    try{
+      const response = await fetch(`https://api.spotify.com/v1/search?q=${encodedQuery}&type=track`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      });
+
+      // use a conditional statement to check that the response returned ok
+      if(!response.ok) {
+        throw new Error('Response not ok.')
+      }
+
+      // Convert this response to a JSON object using the await syntax
+      const data = await response.json();
+
+      // set the search results state to the array of returned track objects
+      setSearchResults(convertDataFormat(data));
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleExportClick = () => {
     // create a new array with all the URI's of the tracks in the tracklist
