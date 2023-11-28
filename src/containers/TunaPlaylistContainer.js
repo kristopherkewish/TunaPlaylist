@@ -11,6 +11,8 @@ const TunaPlaylistContainer = () => {
   const [tracklist, setTracklist] = useState([]);
   // state to keep track of the playlist title (initial value Playlist Title)
   const [playlistTitle, setPlaylistTitle] = useState('Playlist Title');
+  // state to store the track URI's when exporting
+  const [trackURIList, setTrackURIList] = useState([]);
 
   const handleSearchChange = ({target}) => {
     setSearchText(target.value);
@@ -51,12 +53,26 @@ const TunaPlaylistContainer = () => {
     setSearchResults(filteredTracks);
   }
 
+  // add a click handler function for the export button. this function will save the uri's of each track in the tracklist to an array in a new state. Therefore the following modifications will need to be made:
+  // - Create a new state called trackURIList
+  // - Because the URI has been added to the track object, and the whole track object is saved to the tracklist (including the URI), no modifications need to be made to the tracklist
+  // When the button is clicked, a new array will be created with just the URI property of each track (you can use the map function for this).
+  // The handler should not need an argument as it is acting on the state variables.
+  // The handler will need to be passed as a prop to the Playlist component, and then added as an onClick handler to the export button
+
+  const handleExportClick = () => {
+    // create a new array with all the URI's of the tracks in the tracklist
+    const newTrackURIList = tracklist.map(track => track.uri);
+    // set the tracklistURI state to the new array
+    setTrackURIList(newTrackURIList);
+  };
+
   return (
     <div>
       <div className={styles.searchBar}><SearchBar value={searchText} handleChange={handleSearchChange} handleClick={handleSearchClick}/></div>
       <div className={styles.container}>
         <div className={styles.searchResults}><SearchResults searchResults={searchResults} handleResultsCardClick={handleResultsCardClick} /></div>
-        <div className={styles.playlist}><Playlist tracklist={tracklist} handlePlaylistCardClick={handlePlaylistCardClick} playlistTitle={playlistTitle} handlePlaylistTitleChange={handlePlaylistTitleChange} /></div>
+        <div className={styles.playlist}><Playlist tracklist={tracklist} handlePlaylistCardClick={handlePlaylistCardClick} playlistTitle={playlistTitle} handlePlaylistTitleChange={handlePlaylistTitleChange} handleExportClick={handleExportClick} /></div>
       </div>
     </div>
   );
