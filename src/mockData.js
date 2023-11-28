@@ -152,4 +152,6 @@ const tracks = [
       }
   ];
 
+tracks.forEach((track, index) => track.id = index);
+
 export default tracks;

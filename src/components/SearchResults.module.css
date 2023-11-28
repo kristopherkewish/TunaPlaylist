@@ -8,3 +8,8 @@
     width: 25rem;
     min-height: 40rem;
 }
+
+.resultsHeading {
+    color: white;
+    margin-bottom: 1rem;
+}
