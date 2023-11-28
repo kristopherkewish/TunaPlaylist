@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {handleLoginClick, getAccessTokenFromUrl} from '../modules/getAuthToken';
 import Playlist from '../components/Playlist';
 import SearchBar from '../components/SearchBar';
@@ -14,6 +14,40 @@ const TunaPlaylistContainer = () => {
   const [playlistTitle, setPlaylistTitle] = useState('Playlist Title');
   // state to store the track URI's when exporting
   const [trackURIList, setTrackURIList] = useState([]);
+  // state to store the auth token and expiry time
+  const [accessToken, setAccessToken] = useState('');
+  const [expiryTime, setExpiryTime] = useState(0);
+
+  useEffect(() => {
+    // Function to handle access token expiration check
+    const checkTokenExpiration = () => {
+      if (Date.now() > expiryTime) {
+        // Token has expired, perform logout or reauthentication
+        setAccessToken('');
+        setExpiryTime(0);
+        localStorage.removeItem('spotifyAccessToken'); // Remove token from localStorage
+      }
+    };
+
+    // Check token expiration when expiryTime changes
+    checkTokenExpiration();
+
+    // Set up a timer to periodically check token expiration (for example, every minute)
+    const tokenExpirationTimer = setInterval(checkTokenExpiration, 60000); // 1 minute interval
+
+    // Cleanup timer on component unmount
+    return () => {
+      clearInterval(tokenExpirationTimer);
+    };
+  }, [expiryTime]);
+
+  // Function to extract access token from URL fragment and set expiry time
+  useEffect(() => {
+    const {token, expiryTime} = getAccessTokenFromUrl();
+    setExpiryTime(token);
+    setAccessToken(expiryTime);
+  }, []);
+
 
   const handleSearchChange = ({target}) => {
     setSearchText(target.value);
@@ -62,7 +96,7 @@ const TunaPlaylistContainer = () => {
     <div>
       <div className={styles.searchBar}><SearchBar value={searchText} handleChange={handleSearchChange} handleClick={handleSearchClick}/></div>
       <div className={styles.container}>
-        <button className={styles.loginBtn}>Login</button>
+        <button className={styles.loginBtn} onClick={handleLoginClick}>Login</button>
         <div className={styles.searchResults}><SearchResults searchResults={searchResults} handleResultsCardClick={handleResultsCardClick} /></div>
         <div className={styles.playlist}><Playlist tracklist={tracklist} handlePlaylistCardClick={handlePlaylistCardClick} playlistTitle={playlistTitle} handlePlaylistTitleChange={handlePlaylistTitleChange} handleExportClick={handleExportClick} /></div>
       </div>
