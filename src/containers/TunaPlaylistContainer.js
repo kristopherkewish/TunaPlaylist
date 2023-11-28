@@ -9,10 +9,21 @@ const TunaPlaylistContainer = () => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [tracklist, setTracklist] = useState([]);
+  // state to keep track of the playlist title (initial value Playlist Title)
+  const [playlistTitle, setPlaylistTitle] = useState('Playlist Title');
 
   const handleSearchChange = ({target}) => {
     setSearchText(target.value);
   };
+
+  // add a change handler for the playlist title textbox. It should take the {target} as the argument and set its value to a new state. The textbox's value should be set to this state so that it is the centre of truth. To do this you will need to define a new useState [playlistTitle, setPlaylistTitle], pass playlistTitle as a prop to the Playlist component, and then set the value prop of the text input within the Playlist component to the playlistTitle prop. You will also need to pass the handler function to the Playlist component through a prop, then assign it as the change handler of the text input in the Playlist component.
+  const handlePlaylistTitleChange = ({target}) => {
+    // get the targets value and save it in a variable called newPlaylistTitle
+    const newPlaylistTitle = target.value;
+
+    // set the playlistTitle state to newPlaylistTitle
+    setPlaylistTitle(newPlaylistTitle);
+  }
 
   const handleResultsCardClick = (id) => {
     // get track from mock data based on the id stored in the card prop
@@ -45,7 +56,7 @@ const TunaPlaylistContainer = () => {
       <div className={styles.searchBar}><SearchBar value={searchText} handleChange={handleSearchChange} handleClick={handleSearchClick}/></div>
       <div className={styles.container}>
         <div className={styles.searchResults}><SearchResults searchResults={searchResults} handleResultsCardClick={handleResultsCardClick} /></div>
-        <div className={styles.playlist}><Playlist tracklist={tracklist} handlePlaylistCardClick={handlePlaylistCardClick}/></div>
+        <div className={styles.playlist}><Playlist tracklist={tracklist} handlePlaylistCardClick={handlePlaylistCardClick} playlistTitle={playlistTitle} handlePlaylistTitleChange={handlePlaylistTitleChange} /></div>
       </div>
     </div>
   );
