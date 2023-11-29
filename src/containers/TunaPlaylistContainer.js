@@ -14,7 +14,7 @@ const TunaPlaylistContainer = () => {
   // state to keep track of the playlist title (initial value Playlist Title)
   const [playlistTitle, setPlaylistTitle] = useState('Playlist Title');
   // state to store the track URI's when exporting
-  const [trackURIList, setTrackURIList] = useState([]);
+  // const [trackURIList, setTrackURIList] = useState([]);
   // state to store the auth token and expiry time
   const [accessToken, setAccessToken] = useState('');
   const [expiryTime, setExpiryTime] = useState(0);
@@ -68,6 +68,7 @@ const TunaPlaylistContainer = () => {
 
     // add track to the trackList state
     setTracklist(prevTrackList => [newTrack, ...prevTrackList]);
+
   }; 
 
   const handlePlaylistCardClick = (id) => {
@@ -111,7 +112,7 @@ const TunaPlaylistContainer = () => {
     // create a new array with all the URI's of the tracks in the tracklist
     const newTrackURIList = tracklist.map(track => track.uri);
     // set the tracklistURI state to the new array
-    setTrackURIList(newTrackURIList);
+    // setTrackURIList(newTrackURIList);
 
     // set up variables
     const userId = await getUserId(accessToken);
@@ -151,7 +152,7 @@ const TunaPlaylistContainer = () => {
             "Authorization": `Bearer ${accessToken}`,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ uris: trackURIList })
+        body: JSON.stringify({ uris: newTrackURIList })
       });
 
       if(!response.ok) {
