@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import {handleLoginClick, getAccessTokenFromUrl} from '../modules/getAuthToken';
 import convertDataFormat from '../modules/convertDataFormat';
+import getUserId from '../modules/getUserId';
 import Playlist from '../components/Playlist';
 import SearchBar from '../components/SearchBar';
 import SearchResults from '../components/SearchResults';
@@ -106,11 +107,63 @@ const TunaPlaylistContainer = () => {
     }
   };
 
-  const handleExportClick = () => {
+  const handleExportClick = async () => {
     // create a new array with all the URI's of the tracks in the tracklist
     const newTrackURIList = tracklist.map(track => track.uri);
     // set the tracklistURI state to the new array
     setTrackURIList(newTrackURIList);
+
+    // set up variables
+    const userId = await getUserId(accessToken);
+    let playlistId = ''; // will be assigned a value when playlist is created, and then used to add tracks to the playlist
+    
+    //  create a post request to set up the Spotify playlist
+    try {
+      const response = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name: playlistTitle })
+        });
+  
+        if(!response.ok) {
+          throw new Error('response not ok');
+        }
+        
+        const data = await response.json();
+
+        playlistId = data.id;
+
+        console.log(`New Playlist ID: ${data.id}`);
+        setPlaylistTitle("Playlist created!");
+
+    } catch (error) {
+      console.log(error);
+    }
+
+    // populate the playlist with tracks based on the uri's in the tracklist using a POST request
+    try {
+      const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+        method: 'POST',
+        headers: {
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ uris: trackURIList })
+      });
+
+      if(!response.ok) {
+        throw new Error('response not ok!');
+      }
+
+      const data = await response.json();
+
+      console.log(`Tracks added to playlist id: ${playlistId}`)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

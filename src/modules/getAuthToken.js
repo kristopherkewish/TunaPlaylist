@@ -5,7 +5,7 @@ const handleLoginClick = () => {
     const clientId = 'e2d60d4e68d94fe0861c90b75b8abb58';
     const redirectUri = 'http://localhost:3000/callback'; // Your redirect URI
 
-    const scopes = ['user-read-private', 'user-read-email']; // Add scopes as needed
+    const scopes = ['user-read-private', 'user-read-email', 'playlist-modify-public', 'playlist-modify-private']; // Add scopes as needed
 
     const authorizeUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes.join(' '))}&response_type=token`;
 
